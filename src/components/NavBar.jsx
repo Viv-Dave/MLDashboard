@@ -1,9 +1,10 @@
-import Button from "./reusable/button";
 import { useState } from "react";
+
 import ApiStats from "./SubPages/apiData";
 import Charts from "./SubPages/chartsData";
 import DefaultPage from "./SubPages/defaultPage";
 import MachineLearningData from "./SubPages/MachineData";
+
 export default function NavBar() {
   const [page, setPage] = useState(1);
 
@@ -30,60 +31,87 @@ export default function NavBar() {
     setPage(id);
   }
 
-  let button_list = list.map((button) => {
-    return (
-      <li key={button.id}>
-        <Button
-          onClick={() => handleClick(button.id)}
-          buttonName={button.button_name}
-        />
-      </li>
-    );
-  });
-
   return (
     <>
-      <div>Nav Bar</div>
-
-      <ul
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          gap: "0px",
-          listStyleType: "none",
-          padding: 0,
-        }}
+      <div
+        className="
+    relative
+    w-full
+    flex
+    border-b
+    border-t
+    border-green-500
+    bg-white
+    overflow-hidden
+    p-1
+  "
       >
-        {button_list}
-      </ul>
+        {/* Sliding Active Background */}
+        <div
+          className="
+      absolute
+      top-1
+      left-0
+      h-[calc(100%-8px)]
+      bg-gray-200
+      rounded-full
+      transition-all
+      duration-300
+      ease-in-out
+    "
+          style={{
+            width: `${100 / list.length}%`,
+            transform: `translateX(${(page - 1) * 100}%)`,
+          }}
+        />
 
-      <DisplayPage page={page} />
+        {list.map((button) => {
+          return (
+            <button
+              key={button.id}
+              onClick={() => handleClick(button.id)}
+              className={`
+          relative
+          z-10
+          flex-1
+          py-3
+          text-sm
+          font-normal
+          rounded-full
+          transition-colors
+          duration-300
+
+          ${
+            page === button.id
+              ? "text-green-700"
+              : "text-green-700 hover:bg-gray-100"
+          }
+        `}
+            >
+              {button.button_name}
+            </button>
+          );
+        })}
+      </div>
     </>
   );
 }
 
 function DisplayPage({ page }) {
-  let content = "";
+  switch (page) {
+    case 1:
+      return <DefaultPage />;
 
-  if (page === 1) {
-    return <DefaultPage />;
-  } else if (page === 2) {
-    return <MachineLearningData />;
-  } else if (page === 3) {
-    return <ApiStats />;
-  } else if (page === 4) {
-    return <Charts />;
+    case 2:
+      return <MachineLearningData />;
+
+    case 3:
+      return <ApiStats />;
+
+    case 4:
+      return <Charts />;
+
+    default:
+      return <DefaultPage />;
   }
-
-  return (
-    <div
-      style={{
-        marginTop: "20px",
-        padding: "10px",
-        border: "1px solid black",
-      }}
-    >
-      {content}
-    </div>
-  );
 }
