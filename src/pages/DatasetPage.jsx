@@ -2,7 +2,6 @@ import { useState } from "react";
 import { imageList } from "./imageList";
 
 export default function DatasetDisplay() {
-  // Generate 9 random images from dataset
   const getRandomImages = () => {
     const shuffled = [...imageList].sort(() => Math.random() - 0.5);
 
@@ -28,7 +27,7 @@ export default function DatasetDisplay() {
         </button>
       </div>
 
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-3 gap-0">
         {selectedImages.map((item) => {
           return <ImageCard key={item.id} path={item.path} num={item.num} />;
         })}
@@ -39,7 +38,7 @@ export default function DatasetDisplay() {
 
 function ImageCard({ path, num }) {
   return (
-    <div className="bg-white rounded-2xl shadow-md border border-gray-200 p-4 flex flex-col items-center">
+    <div className="bg-white rounded-2xl shadow-md border-2 border-gray-100 p-2 flex flex-col items-center">
       <img
         src={path}
         alt={`Digit ${num}`}
